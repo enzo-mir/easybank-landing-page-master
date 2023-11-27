@@ -17,6 +17,15 @@ body {
   font-family: "Public Sans", sans-serif;
   overflow-x: hidden;
 
+  & div.overlay {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #00000065;
+    z-index: 10;
+  }
+
   & div#elementMockup {
     position: absolute;
     right: 0;
@@ -28,19 +37,35 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
     transform: translate(10%, -5%);
+    min-width: 450px;
+    z-index: -1;
+
+    @media screen and (max-width: 1200px) {
+      width: 60%;
+      height: 100vh;
+      transform: translate(0%, -5%);
+    }
   }
 
   & div#elementBg {
     position: absolute;
     right: 0;
     top: 0;
-    width: 100%;
-    min-height: 125vh;
+    width: 80%;
+    height: 125vh;
     background-position: right top;
     background-image: url("./images/bg-intro-desktop.svg");
     background-size: contain;
     background-repeat: no-repeat;
     transform: translate(25%, -10%);
+    min-width: 750px;
+    z-index: -1;
+
+    @media screen and (max-width: 750px) {
+      background-image: url("./images/bg-intro-mobile.svg");
+      width: 100%;
+      transform: translate(0%, -10%);
+    }
   }
 }
 
@@ -48,20 +73,28 @@ body > header {
   position: fixed;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  place-items: center;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 10%;
   background-color: #fff;
   width: 100%;
   list-style-type: none;
   height: 75px;
   z-index: 50;
 
+  & button {
+    width: fit-content;
+    margin-left: auto;
+  }
+
   & nav {
+    position: relative;
     position: relative;
     height: 100%;
     width: max-content;
     & > ul {
       display: flex;
-      gap: 50px;
+      gap: 2vw;
       height: 100%;
       justify-content: center;
       align-items: center;
@@ -94,6 +127,81 @@ body > header {
       }
     }
   }
+
+  @media screen and (max-width: 980px) {
+    padding-inline: 5%;
+
+    & button {
+      padding: 0.75em 2em;
+    }
+  }
+}
+
+/* BURGER MENU */
+
+body > header {
+  & > span {
+    position: absolute;
+    display: none;
+    width: 24px;
+    height: 11px;
+    background-image: url(./images/icon-hamburger.svg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    right: 5%;
+    &:hover {
+      cursor: pointer;
+    }
+    &.open {
+      background-image: url(./images/icon-close.svg);
+    }
+  }
+  @media screen and (max-width: 750px) {
+    grid-template-columns: repeat(2, 1fr);
+    & > li {
+      position: absolute;
+      left: 5%;
+    }
+    & nav {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      align-items: center;
+      padding-block: 0em;
+      top: 75px;
+      transition: all 0.2s ease-in-out;
+      width: 90vw;
+      background-color: white;
+      height: 0vh;
+      border-radius: 5px;
+      & > ul {
+        flex-direction: column;
+        overflow: hidden;
+
+        & > li {
+          &::after {
+            display: none;
+          }
+          & > a {
+            color: black;
+          }
+        }
+      }
+
+      &.display {
+        height: 40vh;
+        top: 100px;
+        padding-block: 2em;
+      }
+    }
+    & button {
+      display: none;
+    }
+    & > span {
+      display: block;
+    }
+  }
 }
 
 p {
@@ -120,14 +228,19 @@ button {
 
 section {
   position: relative;
-  height: 100svh;
+  min-height: 100svh;
+  padding-block: 10%;
   width: 100%;
+  padding-inline: 10%;
+
+  @media screen and (max-width: 980px) {
+    padding-inline: 5%;
+  }
 }
 
 body > main > section:first-child {
   display: grid;
-  grid-template-columns: 25% 1fr;
-  padding-inline-start: 10%;
+  grid-template-columns: auto 1fr;
 
   & article {
     display: flex;
@@ -135,6 +248,7 @@ body > main > section:first-child {
     gap: 2em;
     align-items: start;
     justify-content: center;
+    width: 400px;
 
     & h1 {
       font-size: 50px;
@@ -146,13 +260,29 @@ body > main > section:first-child {
       line-height: 3ch;
     }
   }
+
+  @media screen and (max-width: 1200px) {
+    align-items: end;
+  }
+  @media screen and (max-width: 750px) {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    padding-inline: 0;
+
+    & > article {
+      align-items: center;
+      background-color: hsl(0, 0%, 98%);
+      width: 100%;
+    }
+  }
 }
 
 body > main > section:nth-child(2) {
   display: grid;
   grid-template-rows: auto auto;
   background-color: hsl(220, 16%, 96%);
-  padding-inline: 10%;
+  gap: 50px;
 
   & > header {
     display: flex;
@@ -171,7 +301,8 @@ body > main > section:nth-child(2) {
   }
 
   & > div {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     width: 100%;
     gap: 10px;
 
@@ -194,6 +325,19 @@ body > main > section:nth-child(2) {
       }
     }
   }
+
+  @media screen and (max-width: 750px) {
+    text-align: center;
+    & > div {
+      grid-template-columns: 1fr;
+      place-items: center;
+      gap: 3em;
+      & > article {
+        width: 100%;
+        justify-items: center;
+      }
+    }
+  }
 }
 
 body > main > section:last-child {
@@ -201,7 +345,6 @@ body > main > section:last-child {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding-inline: 10%;
 
   & h2 {
     font-size: 40px;
@@ -209,12 +352,14 @@ body > main > section:last-child {
   }
 
   & div {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     width: 100%;
     gap: 2em;
 
     & > article {
+      position: relative;
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -228,7 +373,7 @@ body > main > section:last-child {
       }
       & > img {
         object-fit: cover;
-        height: 50%;
+        height: 250px;
       }
       & > h3 {
         font-size: 25px;
@@ -239,6 +384,19 @@ body > main > section:last-child {
           cursor: pointer;
         }
       }
+      & > P {
+        padding-block-end: 1em;
+      }
+    }
+  }
+
+  @media screen and (max-width: 750px) {
+    gap: 3em;
+    & > h2 {
+      text-align: center;
+    }
+    & p {
+      font-size: 16px;
     }
   }
 }
@@ -297,5 +455,41 @@ footer {
     align-items: end;
     justify-content: space-between;
     margin-left: auto;
+
+    & p {
+      font-size: 15px;
+    }
+  }
+
+  @media screen and (max-width: 980px) {
+    padding-inline: 5%;
+    gap: 5%;
+  }
+
+  @media screen and (max-width: 750px) {
+    grid-template-rows: repeat(3, auto);
+    grid-template-columns: 1fr;
+    gap: 2em;
+
+    & > div {
+      gap: 0;
+      &:first-child {
+        justify-content: center;
+        gap: 2em;
+      }
+
+      &:nth-child(2) {
+        width: 100%;
+        flex-direction: column;
+        text-align: center;
+        gap: 1em;
+      }
+      &:last-child {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        gap: 2em;
+      }
+    }
   }
 }
