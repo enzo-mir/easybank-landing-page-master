@@ -38,12 +38,15 @@ body {
     background-repeat: no-repeat;
     transform: translate(10%, -5%);
     min-width: 450px;
-    z-index: -1;
 
     @media screen and (max-width: 1200px) {
-      width: 60%;
+      width: 50%;
       height: 100vh;
       transform: translate(0%, -5%);
+    }
+
+    @media screen and (max-width: 750px) {
+      z-index: -1;
     }
   }
 
@@ -283,6 +286,7 @@ body > main > section:nth-child(2) {
   grid-template-rows: auto auto;
   background-color: hsl(220, 16%, 96%);
   gap: 50px;
+  z-index: 50;
 
   & > header {
     display: flex;

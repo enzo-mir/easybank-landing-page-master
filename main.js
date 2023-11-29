@@ -7,16 +7,19 @@ btnBurger.addEventListener("click", () => {
   nav.classList.toggle("display");
   btnBurger.classList.toggle("open");
   if (nav.classList.contains("display")) {
-    document.body.style.overflow = "hidden";
     document.body.prepend(overlay);
     overlay.addEventListener("click", (e) => {
       nav.classList.remove("display");
+      btnBurger.classList.remove("open");
       document.body.removeChild(e.target);
-      document.body.style.overflow = "visible";
+    });
+
+    window.addEventListener("scroll", () => {
+      nav.classList.remove("display");
+      btnBurger.classList.remove("open");
+      document.body.removeChild(document.getElementsByClassName("overlay")[0]);
     });
   } else {
-    document.body.style.overflow = "visible";
-
     document.body.removeChild(document.getElementsByClassName("overlay")[0]);
   }
 });
